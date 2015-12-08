@@ -1,0 +1,11 @@
+---
+- name: Download and install java-1.7.0-openjdk 
+  yum: name={{ item }} state=installed
+  with_items:
+  - java-1.7.0-openjdk
+
+- name: Create the Zookeeper /etc/sysconfig file
+  template: src=zookeeper.sysconfig.j2 dest=/etc/sysconfig/zookeeper owner=zookeeper group=zookeeper mode=0644
+
+- name: Create the Zookeeper systemd service file
+  copy: src=zookeeper.service dest=/etc/systemd/system/zookeeper.service owner=zookeeper group=zookeeper mode=0644
