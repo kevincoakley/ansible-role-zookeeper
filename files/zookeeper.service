@@ -1,0 +1,13 @@
+[Unit]
+Description=Zookeeper
+After=network.target
+
+[Service]
+User=zookeeper
+Group=zookeeper
+EnvironmentFile=/etc/sysconfig/zookeeper
+ExecStart=/opt/zookeeper/bin/zkServer.sh start-foreground
+ExecStop=/opt/zookeeper/bin/zkServer.sh stop
+
+[Install]
+WantedBy=multi-user.target
