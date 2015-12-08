@@ -1,2 +1,9 @@
 ---
-# defaults file for kevincoakley.zookeeper
+zookeeper_version: 3.4.7
+zookeeper_tick_time: 2000
+zookeeper_init_limit: 10
+zookeeper_sync_limit: 5
+zookeeper_data_dir: /tmp/zookeeper/
+zookeeper_client_port: 2181
+zookeeper_max_client_cnxns: 60
+zookeeper_log_dir: /tmp/
