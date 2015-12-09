@@ -29,6 +29,13 @@
   template: src=zoo.cfg.j2 dest=/opt/zookeeper/conf/zoo.cfg owner=zookeeper group=zookeeper mode=0644
   notify: restart zookeeper
 
+- name: Create the Zookeeper data dir
+  file: path={{ zookeeper_data_dir }} state=directory owner=zookeeper group=zookeeper mode=0755
+
+- name: Create the Zookeeper the myid file
+  template: src=myid.j2 dest={{ zookeeper_data_dir}}/myid owner=zookeeper group=zookeeper mode=0644
+  notify: restart zookeeper
+
 - name: Ensure Zookeeper is started and enabled on boot
   service: name=zookeeper state=started enabled=yes
 
