@@ -1,4 +1,5 @@
 ---
+zookeeper_ansible_host_group: zookeeper
 zookeeper_version: 3.4.7
 zookeeper_tick_time: 2000
 zookeeper_init_limit: 10
