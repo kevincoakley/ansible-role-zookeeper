@@ -14,7 +14,7 @@
   register: zookeeper_path
 
 - name: Download Zookeeper
-  get_url: url=http://mirror.reverse.net/pub/apache/zookeeper/zookeeper-{{ zookeeper_version }}/zookeeper-{{ zookeeper_version }}.tar.gz dest=/tmp/zookeeper-{{ zookeeper_version }}.tar.gz
+  get_url: url=http://archive.apache.org/dist/zookeeper/zookeeper-{{ zookeeper_version }}/zookeeper-{{ zookeeper_version }}.tar.gz dest=/tmp/zookeeper-{{ zookeeper_version }}.tar.gz
   when: zookeeper_path.stat.exists == False
 
 - name: Extract Zookeeper
