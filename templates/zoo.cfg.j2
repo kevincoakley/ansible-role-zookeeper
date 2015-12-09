@@ -15,3 +15,8 @@ clientPort={{ zookeeper_client_port }}
 # the maximum number of client connections.
 # increase this if you need to handle more clients
 maxClientCnxns={{ zookeeper_max_client_cnxns }}
+
+{% for host in groups[zookeeper_ansible_host_group] %}
+# Host {{ host }}
+server.{{ hostvars[host].zookeeper_id }}={{ hostvars[host]['ansible_ssh_host'] }}:{{ zookeeper_leader_port|default('2888') }}:{{ zookeeper_election_port|default('3888') }}
+{% endfor %}
