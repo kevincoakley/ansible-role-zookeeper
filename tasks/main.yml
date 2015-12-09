@@ -5,10 +5,6 @@
 - name: Create the zookeeper user
   user: name=zookeeper groups=zookeeper append=yes
 
-# CentOS
-- include: centos.yml
-  when: ansible_distribution == 'CentOS'
-
 - name: Check if the version of Zookeeper already exists
   stat: path=/opt/zookeeper-{{ zookeeper_version }}
   register: zookeeper_path
@@ -35,6 +31,10 @@
 - name: Create the Zookeeper the myid file
   template: src=myid.j2 dest={{ zookeeper_data_dir}}/myid owner=zookeeper group=zookeeper mode=0644
   notify: restart zookeeper
+
+# CentOS
+- include: centos.yml
+  when: ansible_distribution == 'CentOS'
 
 - name: Ensure Zookeeper is started and enabled on boot
   service: name=zookeeper state=started enabled=yes
