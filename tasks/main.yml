@@ -32,9 +32,9 @@
   template: src=myid.j2 dest={{ zookeeper_data_dir}}/myid owner=zookeeper group=zookeeper mode=0644
   notify: restart zookeeper
 
-# CentOS
-- include: centos.yml
-  when: ansible_distribution == 'CentOS'
+# RedHat 
+- include: RedHat.yml
+  when: ansible_os_family == 'RedHat'
 
 - name: Ensure Zookeeper is started and enabled on boot
   service: name=zookeeper state=started enabled=yes
