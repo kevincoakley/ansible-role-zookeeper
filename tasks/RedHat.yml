@@ -4,8 +4,8 @@
   with_items:
   - java-1.7.0-openjdk
 
-- name: Create the Zookeeper /etc/sysconfig file
-  template: src=zookeeper.sysconfig.j2 dest=/etc/sysconfig/zookeeper owner=zookeeper group=zookeeper mode=0644
+- name: Create the Zookeeper systemd environment file
+  template: src=zookeeper.defaults.j2 dest={{ zookeeper_environment_filename }} owner=zookeeper group=zookeeper mode=0644
 
 - name: Create the Zookeeper systemd service file
-  copy: src=zookeeper.service dest=/etc/systemd/system/zookeeper.service owner=zookeeper group=zookeeper mode=0644
+  template: src=zookeeper.service.j2 dest=/etc/systemd/system/zookeeper.service owner=zookeeper group=zookeeper mode=0644

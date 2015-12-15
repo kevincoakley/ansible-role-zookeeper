@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=zookeeper
 Group=zookeeper
-EnvironmentFile=/etc/sysconfig/zookeeper
+EnvironmentFile={{ zookeeper_environment_filename }}
 ExecStart=/opt/zookeeper/bin/zkServer.sh start-foreground
 ExecStop=/opt/zookeeper/bin/zkServer.sh stop
 

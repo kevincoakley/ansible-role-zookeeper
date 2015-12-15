@@ -1,4 +1,7 @@
 ---
+- name: Include OS family specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
 - name: Create the zookeeper group
   group: name=zookeeper state=present system=yes
 
