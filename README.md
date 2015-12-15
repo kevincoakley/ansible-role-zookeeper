@@ -1,31 +1,80 @@
-Role Name
+Ansible Role: Zookeeper
 =========
 
-A brief description of the role goes here.
+An Ansible role that installs Apache Zookeeper in either a standalone or replicated environment. Test with Zookeeper version 3.4.7.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+You must be running a Linux OS that has systemd enabled by default (RHEL 7, CentOS 7, Ubuntu 15.04+, Debian 8, etc).
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Name of system host group in /etc/ansible/hosts to automatically configure the replicated environment.
+
+	zookeeper_ansible_host_group: zookeeper
+
+Version of Zookeeper to install.
+
+	zookeeper_version: 3.4.7
+
+tickTime variable in conf/zoo.cfg.
+
+	zookeeper_tick_time: 2000
+
+initLimit variable in conf/zoo.cfg.
+
+	zookeeper_init_limit: 10
+
+syncLimit variable in conf/zoo.cfg.
+
+	zookeeper_sync_limit: 5
+
+Directory where Zookeeper data is stored.
+
+	zookeeper_data_dir: /tmp/zookeeper/
+
+Zookeeper client port.
+
+	zookeeper_client_port: 2181
+
+maxClientCnxns variable in conf/zoo.cfg.
+
+	zookeeper_max_client_cnxns: 60
+
+Directory where Zookeeper logs are stored.
+
+	zookeeper_log_dir: /tmp/
+
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Example zookeeper_playbook.yml:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+	- hosts: zookeeper
+  	  sudo: yes
+
+	  vars:
+	    zookeeper_version: 3.4.7
+
+	  roles:
+	    - zookeeper
+
+
+Example /etc/ansible/hosts:
+
+	[zookeeper]
+	zookeeper-0 zookeeper_id=0
+	zookeeper-1 zookeeper_id=1
+	zookeeper-2 zookeeper_id=2
+
 
 License
 -------
@@ -35,4 +84,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Kevin Coakley (https://github.com/kevincoakley)
