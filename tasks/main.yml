@@ -35,9 +35,15 @@
   template: src=myid.j2 dest={{ zookeeper_data_dir}}/myid owner=zookeeper group=zookeeper mode=0644
   notify: restart zookeeper
 
-- name: Download and install java-1.7.0-openjdk
+- name: Download and install yum packages
   yum: name={{ item }} state=installed
   with_items: zookeeper_packages
+  when: ansible_os_family == "RedHat"
+
+- name: Download and install apt-get packages 
+  apt: name={{ item }} state=installed
+  with_items: zookeeper_packages
+  when: ansible_os_family == "Debian"
 
 - name: Create the Zookeeper systemd environment file
   template: src=zookeeper.defaults.j2 dest={{ zookeeper_environment_filename }} owner=zookeeper group=zookeeper mode=0644
