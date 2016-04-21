@@ -37,12 +37,12 @@
 
 - name: Download and install yum packages
   yum: name={{ item }} state=installed
-  with_items: zookeeper_packages
+  with_items: "{{ zookeeper_packages }}"
   when: ansible_os_family == "RedHat"
 
 - name: Download and install apt-get packages 
   apt: name={{ item }} state=installed
-  with_items: zookeeper_packages
+  with_items: "{{ zookeeper_packages }}"
   when: ansible_os_family == "Debian"
 
 - name: Create the Zookeeper systemd environment file
