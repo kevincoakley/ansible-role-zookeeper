@@ -1,4 +1,4 @@
 ---
 zookeeper_environment_filename: /etc/default/zookeeper
 zookeeper_packages:
-  - openjdk-7-jre
+  - openjdk-8-jre
