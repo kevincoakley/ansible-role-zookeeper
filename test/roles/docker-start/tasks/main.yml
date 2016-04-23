@@ -1,0 +1,18 @@
+- name: Start the Docker containers
+  local_action:
+    module: docker
+    name: "centos-zookeeper"
+    image: kevincoakley/centos-systemd
+    privileged: true
+    state: reloaded
+    use_tls: encrypt
+    ports:
+      - "2222:22"
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup"
+
+- name: Wait for ssh
+  wait_for:
+    host: 192.168.99.100
+    port: 2222
+    timeout: 30

@@ -1,0 +1,22 @@
+---
+- name: Start the Docker containers
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - docker-start
+
+
+- name: Test the zookeeper role
+  hosts: zookeeper
+  become: yes
+  become_method: sudo
+
+  roles:
+    - ansible-role-zookeeper
+
+
+- name: Stop the Docker containers
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - docker-stop

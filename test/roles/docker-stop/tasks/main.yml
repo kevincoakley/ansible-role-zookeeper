@@ -1,0 +1,7 @@
+- name: Stop the Docker containers
+  local_action:
+    module: docker
+    name: "centos-zookeeper"
+    image: kevincoakley/centos-systemd
+    state: absent
+    use_tls: encrypt
