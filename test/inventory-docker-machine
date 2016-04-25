@@ -1,0 +1,11 @@
+[all:vars]
+ansible_connection=ssh
+ansible_user=root
+ansible_ssh_pass=docker
+ansible_host=192.168.99.100
+
+[zookeeper-ubuntu]
+ubuntu ansible_ssh_host=192.168.99.100 ansible_port=2200 zookeeper_id=0
+
+[zookeeper-centos]
+centos ansible_ssh_host=192.168.99.100 ansible_port=2222 zookeeper_id=0
