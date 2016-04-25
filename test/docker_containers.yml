@@ -1,0 +1,8 @@
+---
+docker_containers:
+  - name: ubuntu16.04-systemd
+    image: kevincoakley/ubuntu16.04-systemd
+    ssh_port: 2200
+  - name: centos7-systemd
+    image: kevincoakley/centos7-systemd
+    ssh_port: 2222

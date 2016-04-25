@@ -1,18 +1,23 @@
 - name: Start the Docker containers
   local_action:
     module: docker
-    name: "centos-zookeeper"
-    image: kevincoakley/centos-systemd
+    name: "{{ item['name'] }}"
+    image: "{{ item['image'] }}"
     privileged: true
     state: reloaded
     use_tls: encrypt
     ports:
-      - "2222:22"
+      - "{{ item['ssh_port'] }}:22"
     volumes:
       - "/sys/fs/cgroup:/sys/fs/cgroup"
+  with_items: "{{ docker_containers }}"
 
-- name: Wait for ssh
+- name: Give the containers time to start sshd
+  pause: seconds=5
+
+- name: Verify sshd has started
   wait_for:
-    host: 192.168.99.100
-    port: 2222
+    host: "{{ ansible_host }}"
+    port: "{{ item['ssh_port'] }}"
     timeout: 30
+  with_items: "{{ docker_containers }}"

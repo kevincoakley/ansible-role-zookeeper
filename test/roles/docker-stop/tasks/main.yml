@@ -1,7 +1,8 @@
 - name: Stop the Docker containers
   local_action:
     module: docker
-    name: "centos-zookeeper"
-    image: kevincoakley/centos-systemd
+    name: "{{ item['name'] }}"
+    image: "{{ item['image'] }}"
     state: absent
     use_tls: encrypt
+  with_items: "{{ docker_containers }}"
