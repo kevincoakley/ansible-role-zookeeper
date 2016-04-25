@@ -2,14 +2,33 @@
 - name: Start the Docker containers
   hosts: localhost
   gather_facts: false
+
+  vars_files:
+    - docker_containers.yml
+
   roles:
     - docker-start
 
 
-- name: Test the zookeeper role
-  hosts: zookeeper
+- name: Test the zookeeper role for Ubuntu
+  hosts: zookeeper-ubuntu
   become: yes
   become_method: sudo
+
+  vars:
+    zookeeper_ansible_host_group: zookeeper-ubuntu
+
+  roles:
+    - ansible-role-zookeeper
+
+
+- name: Test the zookeeper role for CentOS
+  hosts: zookeeper-centos
+  become: yes
+  become_method: sudo
+
+  vars:
+    zookeeper_ansible_host_group: zookeeper-centos
 
   roles:
     - ansible-role-zookeeper
@@ -18,5 +37,9 @@
 - name: Stop the Docker containers
   hosts: localhost
   gather_facts: false
+
+  vars_files:
+    - docker_containers.yml
+
   roles:
     - docker-stop
