@@ -20,6 +20,7 @@
 
   roles:
     - ansible-role-zookeeper
+    - zookeeper-test
 
 
 - name: Test the zookeeper role for CentOS
@@ -32,6 +33,7 @@
 
   roles:
     - ansible-role-zookeeper
+    - zookeeper-test
 
 
 - name: Stop the Docker containers

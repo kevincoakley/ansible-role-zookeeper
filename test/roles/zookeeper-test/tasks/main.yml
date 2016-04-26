@@ -1,0 +1,19 @@
+---
+- name: Download and install netcat (yum)
+  yum: name={{ item }} state=installed
+  with_items:
+    - nc
+  when: ansible_os_family == "RedHat"
+
+- name: Download and install netcat (apt)
+  apt: name={{ item }} state=installed
+  with_items: netcat
+  when: ansible_os_family == "Debian"
+
+- name: Send ruok to Zookeeper
+  shell: echo ruok | nc 127.0.0.1 2181
+  register: zoo_client
+
+- name: Fail if zookeeper status not imok
+  fail: msg="Status not OK"
+  when: zoo_client.stdout != "imok"
