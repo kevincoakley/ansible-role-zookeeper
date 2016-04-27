@@ -1,6 +1,7 @@
-.PHONY: main
+.PHONY: docker-start ubuntu centos cluster docker-stop all
 
 DEBUG =
+TAGS = all
 
 INVENTORY 				:=
 UNAME_S := $(shell uname -s)
@@ -13,8 +14,23 @@ endif
 
 all: executable
 
+docker-start: TAGS = docker-start
+docker-start: executable
+
+ubuntu: TAGS = zookeeper-ubuntu
+ubuntu: executable
+
+centos: TAGS = zookeeper-centos
+centos: executable
+
+cluster: TAGS = zookeeper-cluster
+cluster: executable
+
+docker-stop: TAGS = docker-stop
+docker-stop: executable
+
 debug: DEBUG = -vvvv
 debug: executable
 
 executable:
-	ansible-playbook -i $(INVENTORY) main.yml $(DEBUG)
+	ansible-playbook -i $(INVENTORY) -t $(TAGS) main.yml $(DEBUG)
