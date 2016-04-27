@@ -12,8 +12,16 @@
 
 - name: Send ruok to Zookeeper
   shell: echo ruok | nc 127.0.0.1 2181
-  register: zoo_client
+  register: zoo_ruok_status
 
 - name: Fail if zookeeper status not imok
-  fail: msg="Status not OK"
-  when: zoo_client.stdout != "imok"
+  fail: msg="Zookeeper not OK"
+  when: zoo_ruok_status.stdout != "imok"
+
+- name: Send stat to Zookeeper
+  shell: echo stat | nc 127.0.0.1 2181
+  register: zoo_stat_status
+
+- name: Fail if zookeeper mode isn't leader, follower or standalone
+  fail: msg="Zookeeper not Failed"
+  when: "'Mode: leader' not in zoo_stat_status.stdout and 'Mode: follower' not in zoo_stat_status.stdout and 'Mode: standalone' not in zoo_stat_status.stdout"

@@ -18,5 +18,5 @@ maxClientCnxns={{ zookeeper_max_client_cnxns }}
 
 {% for host in groups[zookeeper_ansible_host_group] %}
 # Host {{ host }}
-server.{{ hostvars[host].zookeeper_id }}={{ hostvars[host]['ansible_ssh_host'] }}:{{ zookeeper_leader_port|default('2888') }}:{{ zookeeper_election_port|default('3888') }}
+server.{{ hostvars[host].zookeeper_id }}={{ hostvars[host][zookeeper_server_variable] }}:{{ zookeeper_leader_port|default('2888') }}:{{ zookeeper_election_port|default('3888') }}
 {% endfor %}
