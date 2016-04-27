@@ -9,3 +9,8 @@ ubuntu ansible_ssh_host=192.168.99.100 ansible_port=2200 zookeeper_id=0
 
 [zookeeper-centos]
 centos ansible_ssh_host=192.168.99.100 ansible_port=2222 zookeeper_id=0
+
+[zookeeper-cluster]
+zookeeper-cluster-1 ansible_ssh_host=192.168.99.100 ansible_port=2201 zookeeper_id=0
+zookeeper-cluster-2 ansible_ssh_host=192.168.99.100 ansible_port=2202 zookeeper_id=1
+zookeeper-cluster-3 ansible_ssh_host=192.168.99.100 ansible_port=2203 zookeeper_id=2
