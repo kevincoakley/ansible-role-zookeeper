@@ -1,0 +1,20 @@
+---
+- name: Download and install epel (yum)
+  yum: name={{ item }} state=installed
+  with_items:
+    - epel-release
+  when: ansible_os_family == "RedHat"
+
+- name: Download and install factor (yum)
+  yum: name={{ item }} state=installed
+  with_items:
+    - facter
+  when: ansible_os_family == "RedHat"
+
+- name: Download and install factor (apt)
+  apt: name={{ item }} state=installed
+  with_items: facter
+  when: ansible_os_family == "Debian"
+
+- name: Rerun setup to gather the new facter facts
+  action: setup
