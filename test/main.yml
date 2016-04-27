@@ -9,6 +9,9 @@
   roles:
     - docker-start
 
+  tags:
+    - docker-start
+
 
 - name: Test the zookeeper role for Ubuntu
   hosts: zookeeper-ubuntu
@@ -22,6 +25,9 @@
     - ansible-role-zookeeper
     - zookeeper-test
 
+  tags:
+    - zookeeper-ubuntu
+
 
 - name: Test the zookeeper role for CentOS
   hosts: zookeeper-centos
@@ -34,6 +40,9 @@
   roles:
     - ansible-role-zookeeper
     - zookeeper-test
+
+  tags:
+    - zookeeper-centos
 
 
 - name: Test the zookeeper role for Clustering
@@ -51,6 +60,9 @@
     - ansible-role-zookeeper
     - zookeeper-test
 
+  tags:
+    - zookeeper-cluster
+
 
 - name: Stop the Docker containers
   hosts: localhost
@@ -60,4 +72,7 @@
     - docker_containers.yml
 
   roles:
+    - docker-stop
+
+  tags:
     - docker-stop
