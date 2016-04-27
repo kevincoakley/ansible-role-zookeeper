@@ -1,7 +1,7 @@
 Ansible Role: Zookeeper
 =========
 
-[![Build Status](https://travis-ci.org/kevincoakley/ansible-role-zookeeper.svg?branch=travis)](https://travis-ci.org/kevincoakley/ansible-role-zookeeper)
+[![Build Status](https://travis-ci.org/kevincoakley/ansible-role-zookeeper.svg?branch=master)](https://travis-ci.org/kevincoakley/ansible-role-zookeeper)
 
 An Ansible role that installs Apache Zookeeper in either a standalone or replicated environment. Test with Zookeeper version 3.4.7.
 
@@ -16,6 +16,10 @@ Role Variables
 Name of system host group in /etc/ansible/hosts to automatically configure the replicated environment.
 
 	zookeeper_ansible_host_group: zookeeper
+
+Variable name of the Ansible fact to be used in conf/zoo.conf to define the servers in the cluster.
+
+    zookeeper_server_variable: ansible_ssh_host
 
 Version of Zookeeper to install.
 
