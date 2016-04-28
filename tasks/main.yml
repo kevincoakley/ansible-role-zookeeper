@@ -45,6 +45,17 @@
   with_items: "{{ zookeeper_packages }}"
   when: ansible_os_family == "Debian"
 
+# In order to prevent the "restart zookeeper" handler from running when the "service" tag is skipped, set the
+# service_control fact to False and only set the service_control fact to True if the "service" tag isn't skipped.
+# In the handler yaml, only run the task when service_control is True.
+- name: Set the service_control fact to False
+  set_fact: service_control=False
+
+- name: Change the service_control fact to True
+  set_fact: service_control=True
+  tags:
+     - service
+
 - name: Create the Zookeeper systemd environment file
   template: src=zookeeper.defaults.j2 dest={{ zookeeper_environment_filename }} owner=zookeeper group=zookeeper mode=0644
   tags:
@@ -59,5 +70,3 @@
   service: name=zookeeper state=started enabled=yes
   tags:
      - service
-
-

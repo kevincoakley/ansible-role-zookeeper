@@ -1,3 +1,5 @@
 ---
- - name: restart zookeeper
-   service: name=zookeeper state=restarted
+# Only restart the zookeeper service when the service_control fact is True
+- name: restart zookeeper
+  service: name=zookeeper state=restarted
+  when: service_control == True
