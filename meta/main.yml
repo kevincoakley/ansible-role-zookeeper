@@ -2,8 +2,8 @@
 galaxy_info:
   author: Kevin Coakley
   description: Apache Zookeeper
-  license: license (GPLv2, CC-BY, etc)
-  min_ansible_version: 1.4
+  license: BSD
+  min_ansible_version: 1.9
   platforms:
   - name: EL
     versions:
@@ -12,6 +12,7 @@ galaxy_info:
     versions:
     - vivid
     - wily
+    - xenial
   categories:
   - clustering
 dependencies: []
