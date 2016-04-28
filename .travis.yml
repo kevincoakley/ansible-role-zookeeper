@@ -28,7 +28,7 @@ install:
   - ansible --version
 
 script:
-  - ansible-playbook -i tests/inventory-docker tests/main.yml --syntax-check
+  - ansible-playbook -i tests/inventory-docker tests/test.yml --syntax-check
   - cd tests && make debug
 
 notifications:
