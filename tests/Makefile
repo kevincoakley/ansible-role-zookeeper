@@ -33,4 +33,4 @@ debug: DEBUG = -vvvv
 debug: executable
 
 executable:
-	ansible-playbook -i $(INVENTORY) -t $(TAGS) main.yml $(DEBUG)
+	ansible-playbook -i $(INVENTORY) -t $(TAGS) test.yml $(DEBUG)
