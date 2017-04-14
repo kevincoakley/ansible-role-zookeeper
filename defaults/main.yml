@@ -1,7 +1,7 @@
 ---
 zookeeper_ansible_host_group: zookeeper
 zookeeper_server_variable: ansible_ssh_host
-zookeeper_version: 3.4.8
+zookeeper_version: 3.4.10
 zookeeper_tick_time: 2000
 zookeeper_init_limit: 10
 zookeeper_sync_limit: 5

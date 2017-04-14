@@ -6,12 +6,15 @@
   vars_files:
     - docker_containers.yml
 
+  vars:
+    - container_state: started
+    - container_privileged: true
+
   roles:
-    - docker-start
+    - docker
 
   tags:
     - docker-start
-
 
 - name: Test the zookeeper role for Ubuntu
   hosts: zookeeper-ubuntu
@@ -71,8 +74,11 @@
   vars_files:
     - docker_containers.yml
 
+  vars:
+    - container_state: absent
+
   roles:
-    - docker-stop
+    - docker
 
   tags:
     - docker-stop

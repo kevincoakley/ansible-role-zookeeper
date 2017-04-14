@@ -1,8 +1,0 @@
-- name: Stop the Docker containers
-  local_action:
-    module: docker
-    name: "{{ item['name'] }}"
-    image: "{{ item['image'] }}"
-    state: absent
-    use_tls: encrypt
-  with_items: "{{ docker_containers }}"

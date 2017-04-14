@@ -1,17 +1,33 @@
 ---
 docker_containers:
-  - name: ubuntu16.04-systemd
+  - name: ubuntu-system
     image: kevincoakley/ubuntu16.04-systemd
-    ssh_port: 2200
-  - name: centos7-systemd
+    ports:
+      - "2200:22"
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup"
+  - name: centos-system
     image: kevincoakley/centos7-systemd
-    ssh_port: 2222
+    ports:
+      - "2222:22"
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup"
   - name: zookeeper-cluster-1
     image: kevincoakley/ubuntu16.04-systemd
-    ssh_port: 2201
+    ports:
+      - "2201:22"
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup"
   - name: zookeeper-cluster-2
     image: kevincoakley/ubuntu16.04-systemd
-    ssh_port: 2202
+    ports:
+      - "2202:22"
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup"
   - name: zookeeper-cluster-3
     image: kevincoakley/ubuntu16.04-systemd
-    ssh_port: 2203
+    ports:
+      - "2203:22"
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup"
+
