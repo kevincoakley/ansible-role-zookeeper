@@ -14,15 +14,15 @@
 
 - name: Download Zookeeper
   get_url: url=http://archive.apache.org/dist/zookeeper/zookeeper-{{ zookeeper_version }}/zookeeper-{{ zookeeper_version }}.tar.gz dest=/tmp/zookeeper-{{ zookeeper_version }}.tar.gz
-  when: zookeeper_path.stat.exists == False
+  when: not zookeeper_path.stat.exists
 
 - name: Extract Zookeeper
-  unarchive: src=/tmp/zookeeper-{{ zookeeper_version }}.tar.gz dest=/opt copy=no owner=zookeeper group=zookeeper 
-  when: zookeeper_path.stat.exists == False
+  unarchive: src=/tmp/zookeeper-{{ zookeeper_version }}.tar.gz dest=/opt copy=no owner=zookeeper group=zookeeper
+  when: not zookeeper_path.stat.exists
 
 - name: Create a symlink for /opt/zookeeper
   file: src=/opt/zookeeper-{{ zookeeper_version }} dest=/opt/zookeeper owner=zookeeper group=zookeeper state=link
-  when: zookeeper_path.stat.exists == False
+  when: not zookeeper_path.stat.exists
 
 - name: Create the Zookeeper config file
   template: src=zoo.cfg.j2 dest=/opt/zookeeper/conf/zoo.cfg owner=zookeeper group=zookeeper mode=0644
@@ -32,7 +32,7 @@
   file: path={{ zookeeper_data_dir }} state=directory owner=zookeeper group=zookeeper mode=0755
 
 - name: Create the Zookeeper the myid file
-  template: src=myid.j2 dest={{ zookeeper_data_dir}}/myid owner=zookeeper group=zookeeper mode=0644
+  template: src=myid.j2 dest={{ zookeeper_data_dir }}/myid owner=zookeeper group=zookeeper mode=0644
   notify: restart zookeeper
 
 - name: Download and install yum packages
@@ -40,7 +40,7 @@
   with_items: "{{ zookeeper_packages }}"
   when: ansible_os_family == "RedHat"
 
-- name: Download and install apt-get packages 
+- name: Download and install apt-get packages
   apt: name={{ item }} state=installed
   with_items: "{{ zookeeper_packages }}"
   when: ansible_os_family == "Debian"

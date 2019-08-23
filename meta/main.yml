@@ -2,17 +2,34 @@
 galaxy_info:
   author: Kevin Coakley
   description: Apache Zookeeper
+
+  # If the issue tracker for your role is not on github, uncomment the
+  # next line and provide a value
+  # issue_tracker_url: http://example.com/issue/tracker
+
+  # Some suggested licenses:
+  # - BSD (default)
+  # - MIT
+  # - GPLv2
+  # - GPLv3
+  # - Apache
+  # - CC-BY
   license: BSD
-  min_ansible_version: 1.9
+
+  min_ansible_version: 2.5
+
+  #
+  # platforms is a list of platforms, and each platform has a name and a list of versions.
+  #
   platforms:
-  - name: EL
-    versions:
-    - 7
-  - name: Ubuntu
-    versions:
-    - vivid
-    - wily
-    - xenial
-  categories:
-  - clustering
+    - name: EL
+      versions:
+        - 7
+    - name: Ubuntu
+      versions:
+        - bionic
+
+  galaxy_tags:
+    - clustering
+
 dependencies: []
