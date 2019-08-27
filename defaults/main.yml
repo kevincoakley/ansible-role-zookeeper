@@ -9,3 +9,7 @@ zookeeper_data_dir: /tmp/zookeeper/
 zookeeper_client_port: 2181
 zookeeper_max_client_cnxns: 60
 zookeeper_log_dir: /tmp/
+
+zookeeper_service_group: zookeeper
+zookeeper_service_username: zookeeper
+zookeeper_download_url: "http://archive.apache.org/dist/zookeeper/zookeeper-{{ zookeeper_version }}/zookeeper-{{ zookeeper_version }}.tar.gz"
