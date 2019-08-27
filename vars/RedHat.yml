@@ -1,4 +1,4 @@
 ---
 zookeeper_environment_filename: /etc/sysconfig/zookeeper
 zookeeper_packages:
-  - java-1.8.0-openjdk
+  - java-1.8.0-openjdk-headless
