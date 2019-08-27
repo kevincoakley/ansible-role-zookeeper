@@ -1,3 +1,0 @@
-[submodule "tests/roles/facter"]
-	path = tests/roles/facter
-	url = https://github.com/kevincoakley/ansible-role-facter.git
