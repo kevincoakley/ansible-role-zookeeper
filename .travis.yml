@@ -4,16 +4,15 @@ services: docker
 
 env:
   matrix:
-    # Test postgresql 11
+    # Test defaults.
     - MOLECULE_DISTRO: centos7
-      MOLECULE_PLAYBOOK: playbook-11.yml
     - MOLECULE_DISTRO: ubuntu1804
-      MOLECULE_PLAYBOOK: playbook-11.yml
-    # Test postgresql 10
+
+    # Test with Java 11.
     - MOLECULE_DISTRO: centos7
-      MOLECULE_PLAYBOOK: playbook-10.yml
+      MOLECULE_PLAYBOOK: playbook-java11.yml
     - MOLECULE_DISTRO: ubuntu1804
-      MOLECULE_PLAYBOOK: playbook-10.yml
+      MOLECULE_PLAYBOOK: playbook-java11.yml
 
 install:
   # Install test dependencies.

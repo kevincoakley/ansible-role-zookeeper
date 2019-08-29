@@ -23,8 +23,10 @@
   when: ansible_distribution == 'Ubuntu'
 
 - name: Install Java packages
-  package: name={{ item }}
-  with_items: "{{ zookeeper_packages }}"
+  package:
+    name: "{{ item }}"
+  with_items: "{{ zookeeper_java_package[zookeeper_java_version] }}"
+  when: zookeeper_java_install
 
 #
 # Install Zookeeper
