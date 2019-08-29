@@ -22,6 +22,9 @@
     - role: ansible-role-zookeeper
 
   post_tasks:
+    - name: Give the Zookeeper time to start
+      pause:
+        seconds: 30
     - name: Send ruok to Zookeeper
       shell: |
         set -o pipefail
