@@ -6,6 +6,9 @@
   vars:
     - zookeeper_ansible_host_group: zookeeper
     - zookeeper_server_variable: facter_ipaddress
+    - zookeeper_4lw_whitelist:
+        - ruok
+        - stat
     # Install packages needed for post_task tests
     - package:
         - name: nc

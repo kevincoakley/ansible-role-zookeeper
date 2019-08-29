@@ -20,8 +20,7 @@
     path: /usr/share/man/man1
     state: directory
     recurse: true
-  when:
-    - ansible_distribution == 'Ubuntu'
+  when: ansible_distribution == 'Ubuntu'
 
 - name: Install Java packages
   package: name={{ item }}
@@ -41,13 +40,22 @@
     dest: "/tmp/zookeeper-{{ zookeeper_version }}.tar.gz"
   when: not zookeeper_path.stat.exists
 
+- name: Create the Zookeeper extract directory
+  file:
+    path: "/opt/zookeeper-{{ zookeeper_version }}"
+    state: directory
+    mode: '0755'
+  when: not zookeeper_path.stat.exists
+
 - name: Extract Zookeeper
   unarchive:
     src: "/tmp/zookeeper-{{ zookeeper_version }}.tar.gz"
-    dest: /opt
+    dest: "/opt/zookeeper-{{ zookeeper_version }}"
     copy: false
     owner: "{{ zookeeper_service_username }}"
     group: "{{ zookeeper_service_group }}"
+    extra_opts:
+      - --strip-components=1
   when: not zookeeper_path.stat.exists
 
 - name: Create a symlink for /opt/zookeeper
