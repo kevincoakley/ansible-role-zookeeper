@@ -1,4 +1,5 @@
 ---
 zookeeper_environment_filename: /etc/default/zookeeper
-zookeeper_packages:
-  - openjdk-8-jre
+zookeeper_java_package:
+  11: openjdk-11-jre-headless
+  8: openjdk-8-jre-headless

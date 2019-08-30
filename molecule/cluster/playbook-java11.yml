@@ -1,0 +1,47 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  vars:
+    - zookeeper_java_version: 11
+    - zookeeper_ansible_host_group: zookeeper
+    - zookeeper_server_variable: facter_ipaddress
+    - zookeeper_4lw_whitelist:
+        - ruok
+        - stat
+    # Install packages needed for post_task tests
+    - package:
+        - name: nc
+          ansible_os_family: RedHat
+        - name: netcat
+          ansible_os_family: Debian
+
+  roles:
+    - role: kevincoakley.ansible-role-package
+    - role: ansible-role-zookeeper
+
+  post_tasks:
+    - name: Give the Zookeeper time to start
+      pause:
+        seconds: 30
+    - name: Send ruok to Zookeeper
+      shell: |
+        set -o pipefail
+        echo ruok | nc 127.0.0.1 2181
+      args:
+        executable: /bin/bash
+      register: zoo_ruok_status
+      changed_when: false
+      failed_when: zoo_ruok_status.stdout != "imok"
+
+    - name: Send stat to Zookeeper
+      shell: |
+        set -o pipefail
+        echo stat | nc 127.0.0.1 2181
+      args:
+        executable: /bin/bash
+      register: zoo_stat_status
+      changed_when: false
+      failed_when:
+        - "'Mode: leader' not in zoo_stat_status.stdout and 'Mode: follower' not in zoo_stat_status.stdout and 'Mode: standalone' not in zoo_stat_status.stdout"

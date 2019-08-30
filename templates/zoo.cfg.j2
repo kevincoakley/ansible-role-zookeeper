@@ -16,6 +16,14 @@ clientPort={{ zookeeper_client_port }}
 # increase this if you need to handle more clients
 maxClientCnxns={{ zookeeper_max_client_cnxns }}
 
+{% if zookeeper_4lw_whitelist is defined and zookeeper_4lw_whitelist|length > 0 %}
+# A list of comma separated Four Letter Words commands
+# that user wants to use. By default the whitelist only
+# contains "srvr" command which zkServer.sh uses. The
+# rest of four letter word commands are disabled by default.
+4lw.commands.whitelist={% for flw in zookeeper_4lw_whitelist %}{{ flw }}{% if not loop.last %}, {% endif %}{% endfor %}
+{% endif %}
+
 {% for host in groups[zookeeper_ansible_host_group] %}
 # Host {{ host }}
 server.{{ hostvars[host].zookeeper_id }}={{ hostvars[host][zookeeper_server_variable] }}:{{ zookeeper_leader_port|default('2888') }}:{{ zookeeper_election_port|default('3888') }}

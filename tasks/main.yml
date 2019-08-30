@@ -3,70 +3,116 @@
   include_vars: "{{ ansible_os_family }}.yml"
 
 - name: Create the zookeeper group
-  group: name=zookeeper state=present system=yes
+  group:
+    name: "{{ zookeeper_service_group }}"
+    state: present
+    system: true
 
 - name: Create the zookeeper user
-  user: name=zookeeper groups=zookeeper append=yes
+  user:
+    name: "{{ zookeeper_service_username }}"
+    groups: "{{ zookeeper_service_group }}"
+    append: true
 
+# See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
+- name: Ensure 'man' directory exists.
+  file:
+    path: /usr/share/man/man1
+    state: directory
+    recurse: true
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Install Java packages
+  package:
+    name: "{{ item }}"
+  with_items: "{{ zookeeper_java_package[zookeeper_java_version] }}"
+  when: zookeeper_java_install
+
+#
+# Install Zookeeper
+#
 - name: Check if the version of Zookeeper already exists
-  stat: path=/opt/zookeeper-{{ zookeeper_version }}
+  stat:
+    path: "/opt/zookeeper-{{ zookeeper_version }}"
   register: zookeeper_path
 
 - name: Download Zookeeper
-  get_url: url=http://archive.apache.org/dist/zookeeper/zookeeper-{{ zookeeper_version }}/zookeeper-{{ zookeeper_version }}.tar.gz dest=/tmp/zookeeper-{{ zookeeper_version }}.tar.gz
-  when: zookeeper_path.stat.exists == False
+  get_url:
+    url: "{{ zookeeper_download_url }}"
+    dest: "/tmp/zookeeper-{{ zookeeper_version }}.tar.gz"
+  when: not zookeeper_path.stat.exists
+
+- name: Create the Zookeeper extract directory
+  file:
+    path: "/opt/zookeeper-{{ zookeeper_version }}"
+    state: directory
+    mode: '0755'
+  when: not zookeeper_path.stat.exists
 
 - name: Extract Zookeeper
-  unarchive: src=/tmp/zookeeper-{{ zookeeper_version }}.tar.gz dest=/opt copy=no owner=zookeeper group=zookeeper 
-  when: zookeeper_path.stat.exists == False
+  unarchive:
+    src: "/tmp/zookeeper-{{ zookeeper_version }}.tar.gz"
+    dest: "/opt/zookeeper-{{ zookeeper_version }}"
+    copy: false
+    owner: "{{ zookeeper_service_username }}"
+    group: "{{ zookeeper_service_group }}"
+    extra_opts:
+      - --strip-components=1
+  when: not zookeeper_path.stat.exists
 
 - name: Create a symlink for /opt/zookeeper
-  file: src=/opt/zookeeper-{{ zookeeper_version }} dest=/opt/zookeeper owner=zookeeper group=zookeeper state=link
-  when: zookeeper_path.stat.exists == False
+  file:
+    src: "/opt/zookeeper-{{ zookeeper_version }}"
+    dest: /opt/zookeeper
+    owner: "{{ zookeeper_service_username }}"
+    group: "{{ zookeeper_service_group }}"
+    state: link
+  when: not zookeeper_path.stat.exists
 
 - name: Create the Zookeeper config file
-  template: src=zoo.cfg.j2 dest=/opt/zookeeper/conf/zoo.cfg owner=zookeeper group=zookeeper mode=0644
+  template:
+    src: zoo.cfg.j2
+    dest: /opt/zookeeper/conf/zoo.cfg
+    owner: "{{ zookeeper_service_username }}"
+    group: "{{ zookeeper_service_group }}"
+    mode: 0644
   notify: restart zookeeper
 
 - name: Create the Zookeeper data dir
-  file: path={{ zookeeper_data_dir }} state=directory owner=zookeeper group=zookeeper mode=0755
+  file:
+    path: "{{ zookeeper_data_dir }}"
+    state: directory
+    owner: "{{ zookeeper_service_username }}"
+    group: "{{ zookeeper_service_group }}"
+    mode: 0755
 
 - name: Create the Zookeeper the myid file
-  template: src=myid.j2 dest={{ zookeeper_data_dir}}/myid owner=zookeeper group=zookeeper mode=0644
+  template:
+    src: myid.j2
+    dest: "{{ zookeeper_data_dir }}/myid"
+    owner: "{{ zookeeper_service_username }}"
+    group: "{{ zookeeper_service_group }}"
+    mode: 0644
   notify: restart zookeeper
 
-- name: Download and install yum packages
-  yum: name={{ item }} state=installed
-  with_items: "{{ zookeeper_packages }}"
-  when: ansible_os_family == "RedHat"
-
-- name: Download and install apt-get packages 
-  apt: name={{ item }} state=installed
-  with_items: "{{ zookeeper_packages }}"
-  when: ansible_os_family == "Debian"
-
-# In order to prevent the "restart zookeeper" handler from running when the "service" tag is skipped, set the
-# service_control fact to False and only set the service_control fact to True if the "service" tag isn't skipped.
-# In the handler yaml, only run the task when service_control is True.
-- name: Set the service_control fact to False
-  set_fact: service_control=False
-
-- name: Change the service_control fact to True
-  set_fact: service_control=True
-  tags:
-     - service
-
 - name: Create the Zookeeper systemd environment file
-  template: src=zookeeper.defaults.j2 dest={{ zookeeper_environment_filename }} owner=zookeeper group=zookeeper mode=0644
-  tags:
-     - service
+  template:
+    src: zookeeper.defaults.j2
+    dest: "{{ zookeeper_environment_filename }}"
+    owner: "{{ zookeeper_service_username }}"
+    group: "{{ zookeeper_service_group }}"
+    mode: 0644
 
 - name: Create the Zookeeper systemd service file
-  template: src=zookeeper.service.j2 dest=/etc/systemd/system/zookeeper.service owner=zookeeper group=zookeeper mode=0644
-  tags:
-     - service
+  template:
+    src: zookeeper.service.j2
+    dest: /etc/systemd/system/zookeeper.service
+    owner: "{{ zookeeper_service_username }}"
+    group: "{{ zookeeper_service_group }}"
+    mode: 0644
 
 - name: Ensure Zookeeper is started and enabled on boot
-  service: name=zookeeper state=started enabled=yes
-  tags:
-     - service
+  service:
+    name: zookeeper
+    state: started
+    enabled: true
