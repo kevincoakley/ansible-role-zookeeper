@@ -1,2 +1,3 @@
 ---
-- src: kevincoakley.ansible-role-package
+- src: kevincoakley.facter
+- src: kevincoakley.package

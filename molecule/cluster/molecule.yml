@@ -9,7 +9,7 @@ lint:
     config-file: molecule/default/yaml-lint.yml
 platforms:
   - name: instance-1
-    image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
+    image: "kevincoakley/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -18,7 +18,7 @@ platforms:
     groups:
       - zookeeper
   - name: instance-2
-    image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
+    image: "kevincoakley/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -27,7 +27,7 @@ platforms:
     groups:
       - zookeeper
   - name: instance-3
-    image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
+    image: "kevincoakley/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
