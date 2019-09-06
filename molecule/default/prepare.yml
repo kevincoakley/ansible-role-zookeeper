@@ -4,22 +4,13 @@
   become: true
 
   vars:
-    - pre_package:
-        - name: epel-release
-          ansible_os_family: RedHat
+    # Install packages needed for post_task tests
     - package:
-        - name: facter
+        - name: nc
           ansible_os_family: RedHat
-        - name: ruby
+        - name: netcat
           ansible_os_family: Debian
 
   roles:
-    - role: kevincoakley.ansible-role-package
-
-  post_tasks:
-    - gem:
-        name: facter
-        state: present
-        user_install: false
-      when:
-        - ansible_os_family == 'Debian'
+    - role: kevincoakley.facter
+    - role: kevincoakley.package

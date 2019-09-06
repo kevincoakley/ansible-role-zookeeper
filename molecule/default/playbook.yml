@@ -9,15 +9,9 @@
     - zookeeper_4lw_whitelist:
         - ruok
         - stat
-    # Install packages needed for post_task tests
-    - package:
-        - name: nc
-          ansible_os_family: RedHat
-        - name: netcat
-          ansible_os_family: Debian
 
   roles:
-    - role: kevincoakley.ansible-role-package
+    - role: kevincoakley.package
     - role: ansible-role-zookeeper
 
   post_tasks:
