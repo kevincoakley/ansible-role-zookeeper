@@ -21,10 +21,10 @@ maxClientCnxns={{ zookeeper_max_client_cnxns }}
 # that user wants to use. By default the whitelist only
 # contains "srvr" command which zkServer.sh uses. The
 # rest of four letter word commands are disabled by default.
-4lw.commands.whitelist={% for flw in zookeeper_4lw_whitelist %}{{ flw }}{% if not loop.last %}, {% endif %}{% endfor %}
+4lw.commands.whitelist={% for flw in zookeeper_4lw_whitelist|sort %}{{ flw }}{% if not loop.last %}, {% endif %}{% endfor %}
 {% endif %}
 
-{% for host in groups[zookeeper_ansible_host_group] %}
+{% for host in groups[zookeeper_ansible_host_group]|sort %}
 # Host {{ host }}
 server.{{ hostvars[host].zookeeper_id }}={{ hostvars[host][zookeeper_server_variable] }}:{{ zookeeper_leader_port|default('2888') }}:{{ zookeeper_election_port|default('3888') }}
 {% endfor %}
