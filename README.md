@@ -1,7 +1,7 @@
 Ansible Role: Zookeeper
 =========
 
-[![Build Status](https://travis-ci.org/kevincoakley/ansible-role-zookeeper.svg?branch=master)](https://travis-ci.org/kevincoakley/ansible-role-zookeeper)
+![](https://github.com/kevincoakley/ansible-role-zookeeper/workflows/Molecule%20Test/badge.svg)
 
 An Ansible role that installs Apache Zookeeper in either a standalone or replicated environment. Test with Zookeeper version 3.5.5.
 
