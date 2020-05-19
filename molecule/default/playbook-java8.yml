@@ -4,7 +4,7 @@
   become: true
 
   vars:
-    - zookeeper_java_version: 11
+    - zookeeper_java_version: 8
     - zookeeper_ansible_host_group: zookeeper
     - zookeeper_server_variable: facter_ipaddress
     - zookeeper_4lw_whitelist:

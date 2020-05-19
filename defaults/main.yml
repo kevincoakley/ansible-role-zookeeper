@@ -16,7 +16,9 @@ zookeeper_download_url: "http://archive.apache.org/dist/zookeeper/zookeeper-{{ z
 zookeeper_4lw_whitelist: []
 
 # Supported Java Versions:
-# CentOS 7: 11, 8, or 7
+# CentOS 7: latest, 11, 8, or 7
+# CentOS 8: latest, 11, 8
 # Ubuntu 18.04: 11 or 8
-zookeeper_java_version: 8
+# Ubuntu 20.04: 14, 13, 11, or 8
+zookeeper_java_version: 11
 zookeeper_java_install: true
