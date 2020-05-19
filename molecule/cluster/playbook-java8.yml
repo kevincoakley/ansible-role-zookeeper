@@ -7,9 +7,6 @@
     - zookeeper_java_version: 8
     - zookeeper_ansible_host_group: zookeeper
     - zookeeper_server_variable: facter_ipaddress
-    - zookeeper_4lw_whitelist:
-        - ruok
-        - stat
 
   roles:
     - role: ansible-role-zookeeper
@@ -18,23 +15,20 @@
     - name: Give the Zookeeper time to start
       pause:
         seconds: 30
-    - name: Send ruok to Zookeeper
-      shell: |
-        set -o pipefail
-        echo ruok | nc 127.0.0.1 2181
-      args:
-        executable: /bin/bash
-      register: zoo_ruok_status
-      changed_when: false
-      failed_when: zoo_ruok_status.stdout != "imok"
 
-    - name: Send stat to Zookeeper
-      shell: |
-        set -o pipefail
-        echo stat | nc 127.0.0.1 2181
-      args:
-        executable: /bin/bash
-      register: zoo_stat_status
+    - name: Check status to Zookeeper
+      command: /opt/zookeeper/bin/zkServer.sh status
+      register: zoo_status
       changed_when: false
-      failed_when:
-        - "'Mode: leader' not in zoo_stat_status.stdout and 'Mode: follower' not in zoo_stat_status.stdout and 'Mode: standalone' not in zoo_stat_status.stdout"
+
+    - name: Check service running
+      fail:
+        msg: "Zookeeper service not running"
+      when:
+        - "'Error contacting service. It is probably not running.' in zoo_status.stdout"
+
+    - name: Check mode status
+      fail:
+        msg: "Zookeeper mode is not standalone"
+      when:
+        - "'Mode: leader' not in zoo_status.stdout and 'Mode: follower' not in zoo_status.stdout"

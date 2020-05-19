@@ -3,14 +3,5 @@
   hosts: all
   become: true
 
-  vars:
-    # Install packages needed for post_task tests
-    - package:
-        - name: nc
-          ansible_os_family: RedHat
-        - name: netcat
-          ansible_os_family: Debian
-
   roles:
     - role: kevincoakley.facter
-    - role: kevincoakley.package
