@@ -8,7 +8,6 @@
     - zookeeper_server_variable: facter_ipaddress
 
   roles:
-    - role: kevincoakley.package
     - role: ansible-role-zookeeper
 
   post_tasks:
