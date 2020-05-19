@@ -10,10 +10,14 @@ jobs:
         molecule_distro: ['centos7', 'centos8', 'ubuntu1804', 'ubuntu2004']
         java_version: ['8', '11']
         include:
-          - molecule_distro: ['centos7', 'centos8']
+          - molecule_distro: centos7
+            java_version: latest
+          - molecule_distro: centos8
             java_version: latest
           - molecule_distro: ubuntu2004
-            java_version: ['14', '13']
+            java_version: 13
+          - molecule_distro: ubuntu2004
+            java_version: 14
 
     env:
       ANSIBLE_CALLBACK_WHITELIST: profile_tasks
