@@ -33,4 +33,4 @@ jobs:
           molecule test --all
         env:
           MOLECULE_DISTRO: ${{ matrix.molecule_distro }}
-          MOLECULE_PLAYBOOK: ${{ matrix.molecule_playbook }}
+          JAVA_VERSION: ${{ matrix.java_version }}
