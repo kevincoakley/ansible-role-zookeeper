@@ -25,7 +25,7 @@
 - name: Install Java packages
   package:
     name: "{{ item }}"
-  with_items: "{{ zookeeper_java_package[zookeeper_java_version] }}"
+  with_items: "{{ zookeeper_java_package[zookeeper_java_version|string] }}"
   when: zookeeper_java_install
 
 #
