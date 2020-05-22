@@ -27,6 +27,8 @@
     name: "{{ item }}"
   with_items: "{{ zookeeper_java_package[zookeeper_java_version|string] }}"
   when: zookeeper_java_install
+  retries: 5
+  delay: 5
 
 #
 # Install Zookeeper
@@ -41,6 +43,8 @@
     url: "{{ zookeeper_download_url }}"
     dest: "/tmp/zookeeper-{{ zookeeper_version }}.tar.gz"
   when: not zookeeper_path.stat.exists
+  retries: 5
+  delay: 5
 
 - name: Create the Zookeeper extract directory
   file:
