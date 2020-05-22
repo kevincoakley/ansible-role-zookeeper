@@ -1,6 +1,7 @@
 ---
 zookeeper_environment_filename: /etc/sysconfig/zookeeper
 zookeeper_java_package:
-  11: java-11-openjdk-headless
-  8: java-1.8.0-openjdk-headless
-  7: java-1.7.0-openjdk-headless
+  latest: java-latest-openjdk-headless
+  "11": java-11-openjdk-headless
+  "8": java-1.8.0-openjdk-headless
+  "7": java-1.7.0-openjdk-headless

@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  vars:
+    - zookeeper_java_version: "{{ lookup('env','JAVA_VERSION') | default('11') }}"
+    - zookeeper_ansible_host_group: zookeeper
+    - zookeeper_server_variable: facter_ipaddress
+
+  roles:
+    - role: ansible-role-zookeeper

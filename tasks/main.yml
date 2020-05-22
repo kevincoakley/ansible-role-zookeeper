@@ -2,6 +2,9 @@
 - name: Include OS family specific variables
   include_vars: "{{ ansible_os_family }}.yml"
 
+- name: Include OS specific tasks
+  include_tasks: "{{ ansible_os_family }}.yml"
+
 - name: Create the zookeeper group
   group:
     name: "{{ zookeeper_service_group }}"
@@ -14,19 +17,13 @@
     groups: "{{ zookeeper_service_group }}"
     append: true
 
-# See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
-- name: Ensure 'man' directory exists.
-  file:
-    path: /usr/share/man/man1
-    state: directory
-    recurse: true
-  when: ansible_distribution == 'Ubuntu'
-
 - name: Install Java packages
   package:
     name: "{{ item }}"
-  with_items: "{{ zookeeper_java_package[zookeeper_java_version] }}"
+  with_items: "{{ zookeeper_java_package[zookeeper_java_version|string] }}"
   when: zookeeper_java_install
+  retries: 5
+  delay: 5
 
 #
 # Install Zookeeper
@@ -41,6 +38,8 @@
     url: "{{ zookeeper_download_url }}"
     dest: "/tmp/zookeeper-{{ zookeeper_version }}.tar.gz"
   when: not zookeeper_path.stat.exists
+  retries: 5
+  delay: 5
 
 - name: Create the Zookeeper extract directory
   file:

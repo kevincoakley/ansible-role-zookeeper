@@ -1,0 +1,22 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Check status to Zookeeper
+      command: /opt/zookeeper/bin/zkServer.sh status
+      register: zoo_status
+      changed_when: false
+
+    - name: Check service running
+      fail:
+        msg: "Zookeeper service not running"
+      when:
+        - "'Error contacting service. It is probably not running.' in zoo_status.stdout"
+
+    - name: Check mode status
+      fail:
+        msg: "Zookeeper mode is not standalone"
+      when:
+        - "'Mode: leader' not in zoo_status.stdout and 'Mode: follower' not in zoo_status.stdout"

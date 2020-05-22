@@ -1,14 +1,14 @@
 Ansible Role: Zookeeper
 =========
 
-[![Build Status](https://travis-ci.org/kevincoakley/ansible-role-zookeeper.svg?branch=master)](https://travis-ci.org/kevincoakley/ansible-role-zookeeper)
+![](https://github.com/kevincoakley/ansible-role-zookeeper/workflows/Molecule%20Test/badge.svg)
 
-An Ansible role that installs Apache Zookeeper in either a standalone or replicated environment. Test with Zookeeper version 3.5.5.
+An Ansible role that installs Apache Zookeeper in either a standalone or replicated environment. Test with Zookeeper version 3.6.1.
 
 Requirements
 ------------
 
-You must be running a Linux OS that has systemd enabled by default (CentOS 7 and Ubuntu 18.04).
+You must be running a Linux OS that has systemd enabled by default (CentOS 7, CentOS 8, Ubuntu 18.04 and Ubuntu 20.04).
 
 Role Variables
 --------------
@@ -68,7 +68,7 @@ Example zookeeper_playbook.yml:
   	  sudo: yes
 
 	  vars:
-	    zookeeper_version: 3.5.5
+	    zookeeper_version: 3.6.1
 
 	  roles:
 	    - zookeeper
