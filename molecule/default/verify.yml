@@ -1,21 +1,10 @@
 ---
-- name: Converge
+- name: Verify
   hosts: all
   become: true
 
-  vars:
-    - zookeeper_java_version: "{{ lookup('env','JAVA_VERSION') | default('11') }}"
-    - zookeeper_ansible_host_group: zookeeper
-    - zookeeper_server_variable: facter_ipaddress
-
-  roles:
-    - role: ansible-role-zookeeper
-
+  tasks:
   post_tasks:
-    - name: Give the Zookeeper time to start
-      pause:
-        seconds: 30
-
     - name: Check status to Zookeeper
       command: /opt/zookeeper/bin/zkServer.sh status
       register: zoo_status

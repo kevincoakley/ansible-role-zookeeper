@@ -20,10 +20,11 @@ platforms:
       - zookeeper
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
+  log: false
+  options:
+    vvv: false
   playbooks:
-    converge: ${MOLECULE_PLAYBOOK:-playbook.yml}
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
   inventory:
     host_vars:
       instance:
@@ -31,6 +32,4 @@ provisioner:
 scenario:
   name: default
 verifier:
-  name: testinfra
-  lint:
-    name: flake8
+  name: ansible
