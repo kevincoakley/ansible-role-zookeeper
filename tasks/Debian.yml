@@ -7,10 +7,6 @@
     recurse: true
   when: ansible_distribution == 'Ubuntu'
 
-- name: debug
-  debug:
-    var: ansible_distribution_version
-
 - name: fail on unsupported java version (18.04)
   fail:
     msg: "Java version must be 8 or 11"
